@@ -1,3 +1,8 @@
+using LibraryManagementSystem.Core.Repositories;
+using LibraryManagementSystem.Infrastructure;
+using LibraryManagementSystem.Infrastructure.Persistence.Repositories;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +11,15 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Configuração do banco de dados
+builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("test"));
+
+// Configuração das injeções de dependências
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>))
+                .AddScoped<IBookRepository, BookRepository>()
+                .AddScoped<IUserRepository, UserRepository>()
+                .AddScoped<ILoanRepository, LoanRepository>();
 
 var app = builder.Build();
 

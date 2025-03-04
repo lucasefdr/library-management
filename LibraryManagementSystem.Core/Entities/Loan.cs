@@ -1,6 +1,6 @@
 ﻿namespace LibraryManagementSystem.Core.Entities;
 
-public class Loan : BaseEntity
+public sealed class Loan : BaseEntity
 {
     public Loan(int userId, int bookId)
     {
