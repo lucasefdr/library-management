@@ -25,15 +25,15 @@ public sealed class Book : BaseEntity
     public Status Status { get; private set; }
 
     #region Navigation Properties/Relacionamentos
-    public List<Loan> LoanList { get; private set; }
+    public List<Borrowing> LoanList { get; private set; }
     #endregion
 
-    public void BookLoan()
+    public void MarkAsBorrowed()
     {
         Status = Status.Unavailable;
     }
 
-    public void BookReturn()
+    public void MarkAsAvailable()
     {
         Status = Status.Available;
     }

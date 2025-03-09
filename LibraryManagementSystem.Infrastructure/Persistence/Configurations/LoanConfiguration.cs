@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace LibraryManagementSystem.Infrastructure.Persistence.Configurations;
 
-internal class LoanConfiguration : IEntityTypeConfiguration<Loan>
+internal class LoanConfiguration : IEntityTypeConfiguration<Borrowing>
 {
-    public void Configure(EntityTypeBuilder<Loan> builder)
+    public void Configure(EntityTypeBuilder<Borrowing> builder)
     {
         builder.HasKey(l => l.Id);
 

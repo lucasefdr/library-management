@@ -17,6 +17,6 @@ public sealed class User : BaseEntity
     public Email Email { get; private set; }
 
     #region Navigation Properties/Relacionamentos
-    public List<Loan> LoanList { get; private set; }
+    public List<Borrowing> LoanList { get; private set; }
     #endregion
 }

@@ -21,11 +21,11 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDataba
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>))
                 .AddScoped<IBookRepository, BookRepository>()
                 .AddScoped<IUserRepository, UserRepository>()
-                .AddScoped<ILoanRepository, LoanRepository>();
+                .AddScoped<IBorrowingRepository, BorrowingRepository>();
 
 builder.Services.AddScoped<IBookService, BookService>()
                 .AddScoped<IUserService, UserService>()
-                .AddScoped<ILoanService, LoanService>();
+                .AddScoped<IBorrowingService, BorrowingService>();
 
 var app = builder.Build();
 
