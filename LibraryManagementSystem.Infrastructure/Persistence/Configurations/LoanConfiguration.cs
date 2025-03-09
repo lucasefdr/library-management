@@ -9,6 +9,12 @@ internal class LoanConfiguration : IEntityTypeConfiguration<Loan>
     public void Configure(EntityTypeBuilder<Loan> builder)
     {
         builder.HasKey(l => l.Id);
+
+        builder.Property(l => l.UserId);
+        builder.Property(l => l.BookId);
+        builder.Property(l => l.CheckoutDate);
+        builder.Property(l => l.ReturnDate);
+
         builder.HasOne(l => l.User).WithMany(u => u.LoanList).HasForeignKey(l => l.UserId);
         builder.HasOne(l => l.Book).WithMany(b => b.LoanList).HasForeignKey(l => l.BookId);
     }

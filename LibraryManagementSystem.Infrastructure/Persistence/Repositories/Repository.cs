@@ -1,4 +1,4 @@
-﻿using LibraryManagementSystem.Core.Repositories;
+﻿using LibraryManagementSystem.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -29,12 +29,12 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 
     public async Task<TEntity?> FindAsync(Guid id)
     {
-        return await FindAsync(id);
+        return await _context.Set<TEntity>().FindAsync(id);
     }
 
-    public async Task<IEnumerable<TEntity>> GetAllAsync()
+    public IQueryable<TEntity> GetAll()
     {
-        return await _context.Set<TEntity>().AsNoTracking().ToListAsync();
+        return _context.Set<TEntity>();
     }
 
     public async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> expression)

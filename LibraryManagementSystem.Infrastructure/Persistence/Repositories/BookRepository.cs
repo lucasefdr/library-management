@@ -1,5 +1,5 @@
 ﻿using LibraryManagementSystem.Core.Entities;
-using LibraryManagementSystem.Core.Repositories;
+using LibraryManagementSystem.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystem.Infrastructure.Persistence.Repositories;

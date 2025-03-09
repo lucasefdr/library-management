@@ -1,4 +1,6 @@
-using LibraryManagementSystem.Core.Repositories;
+using LibraryManagementSystem.Application.Services.Implementations;
+using LibraryManagementSystem.Application.Services.Interfaces;
+using LibraryManagementSystem.Core.Interfaces;
 using LibraryManagementSystem.Infrastructure;
 using LibraryManagementSystem.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -13,13 +15,17 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Configuração do banco de dados
-builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("test"));
+builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("test"), ServiceLifetime.Singleton);
 
 // Configuração das injeções de dependências
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>))
                 .AddScoped<IBookRepository, BookRepository>()
                 .AddScoped<IUserRepository, UserRepository>()
                 .AddScoped<ILoanRepository, LoanRepository>();
+
+builder.Services.AddScoped<IBookService, BookService>()
+                .AddScoped<IUserService, UserService>()
+                .AddScoped<ILoanService, LoanService>();
 
 var app = builder.Build();
 

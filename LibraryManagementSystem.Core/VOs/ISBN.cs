@@ -1,28 +1,40 @@
 ﻿namespace LibraryManagementSystem.Core.VOs;
 
-public class ISBN
+public sealed class ISBN : IEquatable<ISBN>
 {
-    public string Value { get; }
+    public string Value { get; private set; } = string.Empty;
 
-    public ISBN(string value)
+    private ISBN() { }
+
+    private ISBN(string value)
     {
-        if (string.IsNullOrEmpty(value))
+        Value = value;
+    }
+
+    public static ISBN Create(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
             throw new ArgumentNullException(nameof(value), "The ISBN cannot be empty.");
 
         // Remove hífens e espaços, padronizando para letras maiúsculas
         var cleanedValue = value.Replace("-", "").Replace(" ", "").ToUpper();
 
-        if (!(cleanedValue.Length == 10) || !(cleanedValue.Length == 13))
+        if (cleanedValue.Length is not 10 and not 13)
             throw new ArgumentException("The ISBN must contain 10 or 13 characters.", nameof(value));
 
         if (!IsValid(cleanedValue))
             throw new ArgumentException("Invalid ISBN", nameof(value));
 
-        Value = cleanedValue;
+        return new ISBN(cleanedValue); // Retorna a instância criada com a validação
     }
 
-    private bool IsValid(string isbn)
+    public static bool IsValid(string isbn)
     {
+        if (string.IsNullOrWhiteSpace(isbn))
+            return false;
+
+        isbn = isbn.Replace("-", "").Replace(" ", "").ToUpper();
+
         return isbn.Length switch
         {
             10 => ValidateISBN10(isbn),
@@ -31,14 +43,10 @@ public class ISBN
         };
     }
 
-    private bool ValidateISBN10(string isbn10)
+    private static bool ValidateISBN10(string isbn10)
     {
-        // Verifica se os 9 primeiros caracteres são dígitos
-        for (int i = 0; i < 9; i++)
-        {
-            if (!char.IsDigit(isbn10[i]))
-                return false;
-        }
+        if (isbn10.Length != 10 || !isbn10[..9].All(char.IsDigit))
+            return false;
 
         int sum = 0;
 
@@ -48,27 +56,23 @@ public class ISBN
         }
 
         char lastChar = isbn10[9];
-        int lastDigit = lastChar == 'X' ? 10 : (char.IsDigit(lastChar) ? lastChar - '0' : lastChar);
+        int lastDigit = lastChar == 'X' ? 10 : (char.IsDigit(lastChar) ? lastChar - '0' : -1);
 
-        if (lastChar == '1')
+        if (lastDigit == -1)
             return false;
 
         sum += lastDigit;
-        return (sum % 11 == 0);
+        return sum % 11 == 0;
     }
 
-    private bool ValidateISBN13(string isbn13)
+    private static bool ValidateISBN13(string isbn13)
     {
-        // Todos os caracteres devem ser dígitos
-        foreach (char c in isbn13)
-        {
-            if (char.IsDigit(c))
-                return false;
-        }
+        if (isbn13.Length != 13 || !isbn13.All(char.IsDigit))
+            return false;
 
         int sum = 0;
 
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < 12; i++)
         {
             int digit = isbn13[i] - '0';
             sum += (i % 2 == 0) ? digit : digit * 3;
@@ -79,4 +83,12 @@ public class ISBN
 
         return checkDigit == (isbn13[12] - '0');
     }
+
+    public override string ToString() => Value;
+
+    public override bool Equals(object? obj) => obj is ISBN isbn && isbn.Value == Value;
+
+    public bool Equals(ISBN? other) => other is not null && Value == other.Value;
+
+    public override int GetHashCode() => Value.GetHashCode();
 }
