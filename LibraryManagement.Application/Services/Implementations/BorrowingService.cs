@@ -60,7 +60,9 @@ public class BorrowingService : IBorrowingService
         var borrowing = await _borrowingRepository.FindAsync(id);
         if (borrowing is null) return;
 
-        borrowing.Return();
+        var book = await _bookRepository.FindAsync(borrowing.BookId);
+
+        borrowing.Return(book!);
 
         await _borrowingRepository.UpdateAsync(borrowing);
     }

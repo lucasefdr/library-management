@@ -26,7 +26,7 @@ public sealed class Borrowing : BaseEntity
         return new Borrowing(user.Id, book.Id) { Book = book, User = user, DueDate = dueDate }; // Atribui as referências
     }
 
-    public void Return()
+    public void Return(Book book)
     {
         ReturnDate = DateTime.UtcNow;
         Book.MarkAsAvailable();
