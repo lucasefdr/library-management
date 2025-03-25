@@ -35,7 +35,7 @@ public class BorrowingController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Create(CreateBorrowingInputModel model)
+    public async Task<ActionResult> Post(CreateBorrowingInputModel model)
     {
         var id = await _service.CreateBorrowing(model);
 
@@ -43,7 +43,7 @@ public class BorrowingController : ControllerBase
     }
 
     [HttpPut("return/{id}")]
-    public async Task<ActionResult> LoanReturn(Guid id)
+    public async Task<ActionResult> Return(Guid id)
     {
         await _service.ReturnBorrowing(id);
 

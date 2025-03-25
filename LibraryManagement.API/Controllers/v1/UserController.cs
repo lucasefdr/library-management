@@ -33,7 +33,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Create(CreateUserInputModel model)
+    public async Task<ActionResult> Post(CreateUserInputModel model)
     {
         var id = await _service.CreateUser(model);
 

@@ -31,6 +31,16 @@ public static class ServiceExtensions
                         .AddScoped<IBorrowingService, BorrowingService>();
         #endregion
 
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAngularApp",
+                builder => builder
+                    .WithOrigins("http://localhost:4200")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+        });
+
         return services;
     }
 

@@ -22,6 +22,8 @@ public static class ApplicationBuilderExtensions
                         description.GroupName.ToUpperInvariant());
                 }
             });
+
+            app.UseCors("AllowAngularApp");
         }
         #endregion
 

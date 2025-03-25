@@ -2,12 +2,14 @@
 using LibraryManagementSystem.Application.Services.Interfaces;
 using LibraryManagementSystem.Core.Entities;
 using LibraryManagementSystem.Core.Interfaces;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagementSystem.API.Controllers.v1;
 
 [ApiController]
 [Route("api/v1/[controller]")]
+[DisableCors]
 public class BookController : ControllerBase
 {
     private readonly IBookService _service;
@@ -32,7 +34,7 @@ public class BookController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Create(CreateBookInputModel model)
+    public async Task<ActionResult> Post(CreateBookInputModel model)
     {
         var id = await _service.CreateBook(model);
         return CreatedAtAction(nameof(Get), new { id }, model);
