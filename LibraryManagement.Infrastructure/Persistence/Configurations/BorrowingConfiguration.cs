@@ -1,4 +1,5 @@
-﻿using LibraryManagementSystem.Core.Entities;
+﻿using LibraryManagement.Core.Entities;
+using LibraryManagementSystem.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

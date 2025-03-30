@@ -1,6 +1,7 @@
 ﻿using LibraryManagementSystem.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using LibraryManagement.Core.Entities;
 
 namespace LibraryManagementSystem.Infrastructure;
 

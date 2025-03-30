@@ -1,8 +1,9 @@
-﻿using LibraryManagementSystem.Core.Interfaces;
+﻿using System.Linq.Expressions;
+using LibraryManagement.Application.Repositories;
+using LibraryManagementSystem.Infrastructure;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
-namespace LibraryManagementSystem.Infrastructure.Persistence.Repositories;
+namespace LibraryManagement.Infrastructure.Persistence.Repositories;
 
 public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 {

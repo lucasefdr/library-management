@@ -1,12 +1,12 @@
-﻿using LibraryManagement.Application.DTOs.InputModels.User;
+﻿using LibraryManagement.Application.Common;
+using LibraryManagement.Application.DTOs.InputModels.User;
+using LibraryManagement.Application.Repositories;
 using LibraryManagement.Application.Services.Interfaces;
 using LibraryManagement.Core.Common;
 using LibraryManagementSystem.Application.ViewModels.User;
 using LibraryManagementSystem.Core.Entities;
-using LibraryManagementSystem.Core.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
-namespace LibraryManagementSystem.Application.Services.Implementations;
+namespace LibraryManagement.Application.Services.Implementations;
 
 public class UserService : IUserService
 {
@@ -26,13 +26,24 @@ public class UserService : IUserService
         return user.Id;
     }
 
-    public async Task<IEnumerable<UserViewModel>> GetAllUsers()
+    public async Task<PagedResult<UserViewModel>> GetAllUsers(QueryParameters parameters)
     {
-        var users = await _userRepository.GetAll()
-                                        .Select(user => new UserViewModel(user.Name, user.Email.Address))
-                                        .ToListAsync();
+        var users = await _userRepository.ReadAllAsync(parameters);
+        
+        var response = new PagedResult<UserViewModel>()
+        {
+            CurrentPage = users.CurrentPage,
+            PageSize = users.PageSize,
+            TotalCount = users.TotalCount,
+            TotalPages = users.TotalPages,
+            Items =
+            [
+                ..users.Items.Select(u =>
+                    new UserViewModel(u.Name, u.Email.Address))
+            ]
+        };
 
-        return users;
+        return response;
     }
 
     public async Task<Result<UserViewModel>> GetUser(int id)

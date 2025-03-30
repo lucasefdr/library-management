@@ -1,47 +1,46 @@
-﻿using LibraryManagement.Application.DTOs.InputModels.Book;
+﻿using LibraryManagement.Application.Common;
+using LibraryManagement.Application.DTOs.InputModels.Book;
+using LibraryManagement.Application.Repositories;
 using LibraryManagement.Application.Services.Interfaces;
 using LibraryManagement.Application.ViewModels.Book;
 using LibraryManagement.Core.Common;
 using LibraryManagementSystem.Core.Entities;
-using LibraryManagementSystem.Core.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagement.Application.Services.Implementations;
 
-public class BookService : IBookService
+public class BookService(IBookRepository bookRepository) : IBookService
 {
-    private readonly IBookRepository _bookRepository;
-
-    public BookService(IBookRepository bookRepository)
-    {
-        _bookRepository = bookRepository;
-    }
-
     public async Task<int> CreateBook(CreateBookInputModel model)
     {
         var book = new Book(model.Title, model.Author, model.ISBN, model.PublicationYear);
-        await _bookRepository.CreateAsync(book);
+        await bookRepository.CreateAsync(book);
 
         return book.Id;
     }
 
-    public async Task<IEnumerable<BookViewModel>> GetAllBooks()
+    public async Task<PagedResult<BookViewModel>> GetAllBooks(QueryParameters parameters)
     {
-        var books = await _bookRepository.GetAll()
-            .Select(book => new BookViewModel(
-                book.Id,
-                book.Title,
-                book.Author,
-                book.ISBN.Value,
-                book.Status,
-                book.PublicationYear))
-            .ToListAsync();
-        return books;
+        var books = await bookRepository.ReadAllAsync(parameters);
+
+        var response = new PagedResult<BookViewModel>()
+        {
+            CurrentPage = books.CurrentPage,
+            PageSize = books.PageSize,
+            TotalCount = books.TotalCount,
+            TotalPages = books.TotalPages,
+            Items =
+            [
+                ..books.Items.Select(b =>
+                    new BookViewModel(b.Id, b.Title, b.Author, b.ISBN.ToString(), b.Status, b.PublicationYear))
+            ]
+        };
+
+        return response;
     }
 
     public async Task<Result<BookViewModel>> GetBook(int id)
     {
-        var book = await _bookRepository.FindAsync(id);
+        var book = await bookRepository.ReadAsync(id);
 
         if (book is null)
             return Result.Failure<BookViewModel>("Book not found", 404);
@@ -52,7 +51,7 @@ public class BookService : IBookService
             book.ISBN.Value,
             book.Status,
             book.PublicationYear);
-        
+
         return Result.Success(response);
     }
 }

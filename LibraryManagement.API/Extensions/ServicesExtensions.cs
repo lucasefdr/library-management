@@ -3,12 +3,11 @@ using Asp.Versioning;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using LibraryManagement.API.Converters;
+using LibraryManagement.Application.Repositories;
 using LibraryManagement.Application.Services.Implementations;
 using LibraryManagement.Application.Services.Interfaces;
 using LibraryManagement.Application.Validators.Book;
-using LibraryManagementSystem.Application.Services.Implementations;
-using LibraryManagementSystem.Core.Interfaces;
-using LibraryManagementSystem.Infrastructure.Persistence.Repositories;
+using LibraryManagement.Infrastructure.Persistence.Repositories;
 
 namespace LibraryManagement.API.Extensions;
 

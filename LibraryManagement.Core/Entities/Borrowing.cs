@@ -1,6 +1,7 @@
 ﻿using LibraryManagement.Core.Common;
+using LibraryManagementSystem.Core.Entities;
 
-namespace LibraryManagementSystem.Core.Entities;
+namespace LibraryManagement.Core.Entities;
 
 public sealed class Borrowing : BaseEntity
 {

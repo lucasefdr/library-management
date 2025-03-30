@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace LibraryManagementSystem.Core.Interfaces;
+namespace LibraryManagement.Application.Repositories;
 
 public interface IRepository<TEntity>
 {

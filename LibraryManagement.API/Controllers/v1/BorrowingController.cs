@@ -1,4 +1,5 @@
-﻿using LibraryManagement.Application.DTOs.InputModels.Borrowing;
+﻿using LibraryManagement.Application.Common;
+using LibraryManagement.Application.DTOs.InputModels.Borrowing;
 using LibraryManagement.Application.Services.Interfaces;
 using LibraryManagementSystem.Application.ViewModels.Borrowing;
 using Microsoft.AspNetCore.Mvc;
@@ -7,19 +8,12 @@ namespace LibraryManagement.API.Controllers.v1;
 
 [ApiController]
 [Route("api/v1/[controller]")]
-public class BorrowingController : ControllerBase
+public class BorrowingController(IBorrowingService service) : ControllerBase
 {
-    private readonly IBorrowingService _service;
-
-    public BorrowingController(IBorrowingService service)
-    {
-        _service = service;
-    }
-
     [HttpGet]
-    public async Task<ActionResult<List<BorrowingViewModel>>> GetAll()
+    public async Task<ActionResult<PagedResult<BorrowingViewModel>>> GetAll([FromQuery] QueryParameters parameters)
     {
-        var borrowings = await _service.GetAllBorrowings();
+        var borrowings = await service.GetAllBorrowings(parameters);
 
         return Ok(borrowings);
     }
@@ -27,7 +21,7 @@ public class BorrowingController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<BorrowingViewModel>> Get(int id)
     {
-        var result = await _service.GetBorrowing(id);
+        var result = await service.GetBorrowing(id);
 
         return result.IsFailure
             ? StatusCode(result.StatusCode, result.ErrorMessage)
@@ -37,7 +31,7 @@ public class BorrowingController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> Post(CreateBorrowingInputModel model)
     {
-        var result = await _service.CreateBorrowing(model);
+        var result = await service.CreateBorrowing(model);
 
         return result.IsFailure
             ? StatusCode(result.StatusCode, result.ErrorMessage)
@@ -47,7 +41,7 @@ public class BorrowingController : ControllerBase
     [HttpPut("{id:int}/return")]
     public async Task<ActionResult> ReturnBorrowing(int id)
     {
-        var result = await _service.ReturnBorrowing(id);
+        var result = await service.ReturnBorrowing(id);
 
         return result.IsFailure
             ? StatusCode(result.StatusCode, result.ErrorMessage)
