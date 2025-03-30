@@ -1,8 +1,8 @@
-﻿using LibraryManagementSystem.Application.InputModels.Borrowing;
+﻿using LibraryManagement.Application.DTOs.InputModels.Borrowing;
+using LibraryManagement.Core.Enums;
 using LibraryManagementSystem.Application.Services.Interfaces;
 using LibraryManagementSystem.Application.ViewModels.Borrowing;
 using LibraryManagementSystem.Core.Entities;
-using LibraryManagementSystem.Core.Enums;
 using LibraryManagementSystem.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -37,7 +37,7 @@ public class BorrowingService : IBorrowingService
             .ToListAsync();
     }
 
-    public async Task<BorrowingViewModel?> GetBorrowing(Guid id)
+    public async Task<BorrowingViewModel?> GetBorrowing(int id)
     {
         var borrowing = await _borrowingRepository.GetWithDetailsAsync(id);
         return borrowing is null
@@ -45,7 +45,7 @@ public class BorrowingService : IBorrowingService
             : new BorrowingViewModel(borrowing.Id, borrowing.User.Name, borrowing.Book.Title, borrowing.CheckoutDate, borrowing.DueDate, borrowing.ReturnDate);
     }
 
-    public async Task<Guid> CreateBorrowing(CreateBorrowingInputModel model)
+    public async Task<int> CreateBorrowing(CreateBorrowingInputModel model)
     {
         var (user, book) = await ValidateUserAndBook(model.UserId, model.BookId);
 
@@ -55,7 +55,7 @@ public class BorrowingService : IBorrowingService
         return borrowing.Id;
     }
 
-    public async Task ReturnBorrowing(Guid id)
+    public async Task ReturnBorrowing(int id)
     {
         var borrowing = await _borrowingRepository.FindAsync(id);
         if (borrowing is null) return;
@@ -70,7 +70,7 @@ public class BorrowingService : IBorrowingService
     /// <summary>
     /// Valida se o usuário e o livro existem e se o livro está disponível para empréstimo.
     /// </summary>
-    private async Task<(User user, Book book)> ValidateUserAndBook(Guid userId, Guid bookId)
+    private async Task<(User user, Book book)> ValidateUserAndBook(int userId, int bookId)
     {
         var book = await _bookRepository.FindAsync(bookId) ?? throw new ArgumentNullException(nameof(bookId), "Book not exists.");
 

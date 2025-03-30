@@ -11,9 +11,9 @@ public class BorrowingRepository : Repository<Borrowing>, IBorrowingRepository
 
     }
 
-    public async Task<Borrowing?> GetWithDetailsAsync(Guid id)
+    public async Task<Borrowing?> GetWithDetailsAsync(int id)
     {
-        var loan = await _context.Loans.AsNoTracking()
+        var loan = await _context.Borrowings.AsNoTracking()
                                        .Include(l => l.User)
                                        .Include(l => l.Book)
                                        .FirstOrDefaultAsync(l => l.Id == id);

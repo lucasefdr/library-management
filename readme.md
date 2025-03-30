@@ -1,6 +1,6 @@
 # Library Management System
 
-Uma breve descrição do seu projeto. O que ele faz? Qual problema ele resolve?
+Uma breve descriÃ§Ã£o do seu projeto. O que ele faz? Qual problema ele resolve?
 
 ## Features
 

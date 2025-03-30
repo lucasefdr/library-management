@@ -1,4 +1,4 @@
-﻿using LibraryManagementSystem.Application.InputModels.User;
+﻿using LibraryManagement.Application.DTOs.InputModels.User;
 using LibraryManagementSystem.Application.Services.Interfaces;
 using LibraryManagementSystem.Application.ViewModels.User;
 using LibraryManagementSystem.Core.Entities;
@@ -16,7 +16,7 @@ public class UserService : IUserService
         _userRepository = userRepository;
     }
 
-    public async Task<Guid> CreateUser(CreateUserInputModel model)
+    public async Task<int> CreateUser(CreateUserInputModel model)
     {
         var user = new User(model.Name, model.Email);
 
@@ -34,7 +34,7 @@ public class UserService : IUserService
         return users;
     }
 
-    public async Task<UserViewModel?> GetUser(Guid id)
+    public async Task<UserViewModel?> GetUser(int id)
     {
         var user = await _userRepository.FindAsync(id);
 

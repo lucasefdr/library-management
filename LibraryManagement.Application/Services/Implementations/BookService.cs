@@ -1,10 +1,10 @@
-﻿using LibraryManagementSystem.Application.InputModels.Book;
-using LibraryManagementSystem.Application.Services.Interfaces;
-using LibraryManagementSystem.Application.ViewModels.Book;
+﻿using LibraryManagementSystem.Application.Services.Interfaces;
 using LibraryManagementSystem.Core.Entities;
 using LibraryManagementSystem.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata;
+using LibraryManagement.Application.DTOs.InputModels.Book;
+using LibraryManagement.Application.ViewModels.Book;
 
 namespace LibraryManagementSystem.Application.Services.Implementations;
 
@@ -17,7 +17,7 @@ public class BookService : IBookService
         _bookRepository = bookRepository;
     }
 
-    public async Task<Guid> CreateBook(CreateBookInputModel model)
+    public async Task<int> CreateBook(CreateBookInputModel model)
     {
         var book = new Book(model.Title, model.Author, model.ISBN, model.PublicationYear);
         await _bookRepository.CreateAsync(book);
@@ -39,7 +39,7 @@ public class BookService : IBookService
         return books;
     }
 
-    public async Task<BookViewModel?> GetBook(Guid id)
+    public async Task<BookViewModel?> GetBook(int id)
     {
         var book = await _bookRepository.FindAsync(id);
 

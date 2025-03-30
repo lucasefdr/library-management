@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace LibraryManagementSystem.Infrastructure.Persistence.Configurations;
+namespace LibraryManagement.Infrastructure.Persistence.Configurations;
 
 internal class UserConfiguration : IEntityTypeConfiguration<User>
 {

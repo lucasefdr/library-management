@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace LibraryManagementSystem.Infrastructure.Persistence.Configurations;
+namespace LibraryManagement.Infrastructure.Persistence.Configurations;
 
 internal class BorrowingConfiguration : IEntityTypeConfiguration<Borrowing>
 {
@@ -10,11 +10,11 @@ internal class BorrowingConfiguration : IEntityTypeConfiguration<Borrowing>
     {
         builder.HasKey(b => b.Id);
         builder.Property(b => b.Id);
-        builder.Property(b => b.CreatedAt).HasColumnType("datetime").IsRequired(); 
+        builder.Property(b => b.CreatedAt).HasColumnType("datetime").IsRequired();
         builder.Property(b => b.UserId).IsRequired();
         builder.Property(b => b.BookId).IsRequired();
-        builder.Property(b => b.CheckoutDate).HasColumnType("datetime").IsRequired(); 
-        builder.Property(b => b.DueDate).HasColumnType("datetime").IsRequired(); 
+        builder.Property(b => b.CheckoutDate).HasColumnType("datetime").IsRequired();
+        builder.Property(b => b.DueDate).HasColumnType("datetime").IsRequired();
         builder.Property(b => b.ReturnDate).HasColumnType("datetime");
 
         builder.HasOne(b => b.User).WithMany(u => u.LoanList).HasForeignKey(b => b.UserId);

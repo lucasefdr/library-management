@@ -1,4 +1,4 @@
-﻿using LibraryManagementSystem.Core.Enums;
+﻿using LibraryManagement.Core.Enums;
 using LibraryManagementSystem.Core.VOs;
 
 namespace LibraryManagementSystem.Core.Entities;

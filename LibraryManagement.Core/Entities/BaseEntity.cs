@@ -4,24 +4,19 @@ public abstract class BaseEntity
 {
     protected BaseEntity()
     {
-        Id = Guid.NewGuid();
         CreatedAt = DateTime.UtcNow;
     }
 
-    public Guid Id { get; protected set; }
-    public DateTime CreatedAt { get; protected set; }
+    public int Id { get; }
+    public DateTime CreatedAt { get; }
 
     // Override do método Equals para comparar entidades com base no Id
     public override bool Equals(object? obj)
     {
-        if (obj == null || obj is not BaseEntity)
+        if (obj is not BaseEntity other)
             return false;
 
-        if (ReferenceEquals(this, obj))
-            return true;
-
-        var other = (BaseEntity)obj;
-        return Id.Equals(other.Id);
+        return ReferenceEquals(this, other) || Id.Equals(other.Id);
     }
 
     // Override do GetHashCode utilizando o Id
@@ -31,7 +26,7 @@ public abstract class BaseEntity
     }
 
     // Sobrecarga dos operadores de igualdade
-    public static bool operator ==(BaseEntity a, BaseEntity b)
+    public static bool operator ==(BaseEntity? a, BaseEntity? b)
     {
         if (a is null && b is null)
             return true;

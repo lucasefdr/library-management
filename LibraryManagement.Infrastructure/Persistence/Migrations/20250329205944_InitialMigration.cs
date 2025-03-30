@@ -1,9 +1,10 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace LibraryManagementSystem.Infrastructure.Persistence.Migrations
+namespace LibraryManagement.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class InitialMigration : Migration
@@ -18,7 +19,8 @@ namespace LibraryManagementSystem.Infrastructure.Persistence.Migrations
                 name: "Books",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Title = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Author = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
@@ -40,7 +42,8 @@ namespace LibraryManagementSystem.Infrastructure.Persistence.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Email_Address = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
@@ -54,12 +57,13 @@ namespace LibraryManagementSystem.Infrastructure.Persistence.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Loans",
+                name: "Borrowings",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    BookId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    BookId = table.Column<int>(type: "int", nullable: false),
                     CheckoutDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     DueDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     ReturnDate = table.Column<DateTime>(type: "datetime", nullable: true),
@@ -67,15 +71,15 @@ namespace LibraryManagementSystem.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Loans", x => x.Id);
+                    table.PrimaryKey("PK_Borrowings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Loans_Books_BookId",
+                        name: "FK_Borrowings_Books_BookId",
                         column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Loans_Users_UserId",
+                        name: "FK_Borrowings_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -84,13 +88,13 @@ namespace LibraryManagementSystem.Infrastructure.Persistence.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Loans_BookId",
-                table: "Loans",
+                name: "IX_Borrowings_BookId",
+                table: "Borrowings",
                 column: "BookId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Loans_UserId",
-                table: "Loans",
+                name: "IX_Borrowings_UserId",
+                table: "Borrowings",
                 column: "UserId");
         }
 
@@ -98,7 +102,7 @@ namespace LibraryManagementSystem.Infrastructure.Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Loans");
+                name: "Borrowings");
 
             migrationBuilder.DropTable(
                 name: "Books");

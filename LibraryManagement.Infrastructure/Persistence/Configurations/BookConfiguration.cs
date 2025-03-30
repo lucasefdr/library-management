@@ -1,9 +1,9 @@
-﻿using LibraryManagementSystem.Core.Entities;
-using LibraryManagementSystem.Core.Enums;
+﻿using LibraryManagement.Core.Enums;
+using LibraryManagementSystem.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace LibraryManagementSystem.Infrastructure.Persistence.Configurations;
+namespace LibraryManagement.Infrastructure.Persistence.Configurations;
 
 internal class BookConfiguration : IEntityTypeConfiguration<Book>
 {

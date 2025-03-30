@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace LibraryManagementSystem.Infrastructure.Persistence.Migrations
+namespace LibraryManagement.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
@@ -24,9 +24,11 @@ namespace LibraryManagementSystem.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("LibraryManagementSystem.Core.Entities.Book", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Author")
                         .IsRequired()
@@ -56,12 +58,14 @@ namespace LibraryManagementSystem.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("LibraryManagementSystem.Core.Entities.Borrowing", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("BookId")
-                        .HasColumnType("char(36)");
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CheckoutDate")
                         .HasColumnType("datetime");
@@ -75,8 +79,8 @@ namespace LibraryManagementSystem.Infrastructure.Persistence.Migrations
                     b.Property<DateTime?>("ReturnDate")
                         .HasColumnType("datetime");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("char(36)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -84,14 +88,16 @@ namespace LibraryManagementSystem.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Loans");
+                    b.ToTable("Borrowings");
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.Core.Entities.User", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime");
@@ -110,8 +116,8 @@ namespace LibraryManagementSystem.Infrastructure.Persistence.Migrations
                 {
                     b.OwnsOne("LibraryManagementSystem.Core.VOs.ISBN", "ISBN", b1 =>
                         {
-                            b1.Property<Guid>("BookId")
-                                .HasColumnType("char(36)");
+                            b1.Property<int>("BookId")
+                                .HasColumnType("int");
 
                             b1.Property<string>("Value")
                                 .IsRequired()
@@ -153,8 +159,8 @@ namespace LibraryManagementSystem.Infrastructure.Persistence.Migrations
                 {
                     b.OwnsOne("LibraryManagementSystem.Core.VOs.Email", "Email", b1 =>
                         {
-                            b1.Property<Guid>("UserId")
-                                .HasColumnType("char(36)");
+                            b1.Property<int>("UserId")
+                                .HasColumnType("int");
 
                             b1.Property<string>("Address")
                                 .IsRequired()

@@ -27,7 +27,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
         await _context.SaveChangesAsync();
     }
 
-    public async Task<TEntity?> FindAsync(Guid id)
+    public async Task<TEntity?> FindAsync(int id)
     {
         return await _context.Set<TEntity>().FindAsync(id);
     }

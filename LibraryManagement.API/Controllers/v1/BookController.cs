@@ -1,4 +1,4 @@
-﻿using LibraryManagementSystem.Application.InputModels.Book;
+﻿using LibraryManagement.Application.DTOs.InputModels.Book;
 using LibraryManagementSystem.Application.Services.Interfaces;
 using LibraryManagementSystem.Core.Entities;
 using LibraryManagementSystem.Core.Interfaces;
@@ -27,7 +27,7 @@ public class BookController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Book>> Get(Guid id)
+    public async Task<ActionResult<Book>> Get(int id)
     {
         var book = await _service.GetBook(id);
         return book is not null ? Ok(book) : NotFound($"Book with ID {id} not found.");

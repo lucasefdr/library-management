@@ -1,4 +1,4 @@
-﻿using LibraryManagementSystem.Application.InputModels.Borrowing;
+﻿using LibraryManagement.Application.DTOs.InputModels.Borrowing;
 using LibraryManagementSystem.Application.Services.Interfaces;
 using LibraryManagementSystem.Application.ViewModels.Borrowing;
 using LibraryManagementSystem.Core.Entities;
@@ -27,7 +27,7 @@ public class BorrowingController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<BorrowingViewModel>> Get(Guid id)
+    public async Task<ActionResult<BorrowingViewModel>> Get(int id)
     {
         var borrowing = await _service.GetBorrowing(id);
 
@@ -42,8 +42,8 @@ public class BorrowingController : ControllerBase
         return CreatedAtAction(nameof(Get), new { id }, model);
     }
 
-    [HttpPut("return/{id}")]
-    public async Task<ActionResult> Return(Guid id)
+    [HttpPut("{id:int}/return")]
+    public async Task<ActionResult> ReturnBorrowing(int id)
     {
         await _service.ReturnBorrowing(id);
 

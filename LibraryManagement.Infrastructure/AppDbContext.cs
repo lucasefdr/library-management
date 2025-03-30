@@ -13,7 +13,7 @@ public class AppDbContext : DbContext
     // Tabelas
     public DbSet<Book> Books { get; set; }
     public DbSet<User> Users { get; set; }
-    public DbSet<Borrowing> Loans { get; set; }
+    public DbSet<Borrowing> Borrowings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

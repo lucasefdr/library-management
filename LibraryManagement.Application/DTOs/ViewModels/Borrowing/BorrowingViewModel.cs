@@ -2,7 +2,7 @@
 
 public record BorrowingViewModel
 {
-    public BorrowingViewModel(Guid id, string userName, string bookTitle, DateTime checkoutDate, DateTime dueDate, DateTime? returnDate)
+    public BorrowingViewModel(int id, string userName, string bookTitle, DateTime checkoutDate, DateTime dueDate, DateTime? returnDate)
     {
         Id = id;
         UserName = userName;
@@ -12,7 +12,7 @@ public record BorrowingViewModel
         ReturnDate = returnDate;
     }
 
-    public Guid Id { get; init; }
+    public int Id { get; init; }
     public string UserName { get; init; }
     public string BookTitle { get; init; }
     public DateTime CheckoutDate { get; init; }

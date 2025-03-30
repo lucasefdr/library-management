@@ -4,5 +4,5 @@ namespace LibraryManagementSystem.Core.Interfaces;
 
 public interface IBorrowingRepository : IRepository<Borrowing>
 {
-    Task<Borrowing?> GetWithDetailsAsync(Guid id);
+    Task<Borrowing?> GetWithDetailsAsync(int id);
 }

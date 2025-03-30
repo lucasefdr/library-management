@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace LibraryManagementSystem.Core.Enums;
+namespace LibraryManagement.Core.Enums;
 
 public enum Status
 {

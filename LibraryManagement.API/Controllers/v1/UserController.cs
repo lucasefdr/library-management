@@ -1,4 +1,4 @@
-﻿using LibraryManagementSystem.Application.InputModels.User;
+﻿using LibraryManagement.Application.DTOs.InputModels.User;
 using LibraryManagementSystem.Application.Services.Interfaces;
 using LibraryManagementSystem.Core.Entities;
 using LibraryManagementSystem.Core.Interfaces;
@@ -25,7 +25,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<User>> Get(Guid id)
+    public async Task<ActionResult<User>> Get(int id)
     {
         var user = await _service.GetUser(id);
 
