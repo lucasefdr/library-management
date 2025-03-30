@@ -1,5 +1,5 @@
 ﻿using LibraryManagement.Application.DTOs.InputModels.Book;
-using LibraryManagementSystem.Application.Services.Interfaces;
+using LibraryManagement.Application.Services.Interfaces;
 using LibraryManagementSystem.Core.Entities;
 using LibraryManagementSystem.Core.Interfaces;
 using Microsoft.AspNetCore.Cors;
@@ -29,8 +29,10 @@ public class BookController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<Book>> Get(int id)
     {
-        var book = await _service.GetBook(id);
-        return book is not null ? Ok(book) : NotFound($"Book with ID {id} not found.");
+        var result = await _service.GetBook(id);
+        return result.IsFailure
+            ? StatusCode(result.StatusCode, result.ErrorMessage)
+            : Ok(result.Value);
     }
 
     [HttpPost]

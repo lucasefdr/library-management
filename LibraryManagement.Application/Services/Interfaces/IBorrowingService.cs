@@ -1,12 +1,13 @@
 ﻿using LibraryManagement.Application.DTOs.InputModels.Borrowing;
+using LibraryManagement.Core.Common;
 using LibraryManagementSystem.Application.ViewModels.Borrowing;
 
-namespace LibraryManagementSystem.Application.Services.Interfaces;
+namespace LibraryManagement.Application.Services.Interfaces;
 
 public interface IBorrowingService
 {
     Task<IEnumerable<BorrowingViewModel>> GetAllBorrowings();
-    Task<BorrowingViewModel?> GetBorrowing(int id);
-    Task<int> CreateBorrowing(CreateBorrowingInputModel model);
-    Task ReturnBorrowing(int id);
+    Task<Result<BorrowingViewModel>> GetBorrowing(int id);
+    Task<Result<int>> CreateBorrowing(CreateBorrowingInputModel model);
+    Task<Result> ReturnBorrowing(int id);
 }

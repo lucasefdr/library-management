@@ -1,11 +1,9 @@
 ﻿using LibraryManagement.Application.DTOs.InputModels.Borrowing;
-using LibraryManagementSystem.Application.Services.Interfaces;
+using LibraryManagement.Application.Services.Interfaces;
 using LibraryManagementSystem.Application.ViewModels.Borrowing;
-using LibraryManagementSystem.Core.Entities;
-using LibraryManagementSystem.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LibraryManagementSystem.API.Controllers.v1;
+namespace LibraryManagement.API.Controllers.v1;
 
 [ApiController]
 [Route("api/v1/[controller]")]
@@ -26,27 +24,33 @@ public class BorrowingController : ControllerBase
         return Ok(borrowings);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<ActionResult<BorrowingViewModel>> Get(int id)
     {
-        var borrowing = await _service.GetBorrowing(id);
+        var result = await _service.GetBorrowing(id);
 
-        return borrowing is not null ? Ok(borrowing) : NotFound();
+        return result.IsFailure
+            ? StatusCode(result.StatusCode, result.ErrorMessage)
+            : Ok(result.Value);
     }
 
     [HttpPost]
     public async Task<ActionResult> Post(CreateBorrowingInputModel model)
     {
-        var id = await _service.CreateBorrowing(model);
+        var result = await _service.CreateBorrowing(model);
 
-        return CreatedAtAction(nameof(Get), new { id }, model);
+        return result.IsFailure
+            ? StatusCode(result.StatusCode, result.ErrorMessage)
+            : CreatedAtAction(nameof(Get), new { v = "1.0", id = result.Value }, model);
     }
 
     [HttpPut("{id:int}/return")]
     public async Task<ActionResult> ReturnBorrowing(int id)
     {
-        await _service.ReturnBorrowing(id);
+        var result = await _service.ReturnBorrowing(id);
 
-        return NoContent();
+        return result.IsFailure
+            ? StatusCode(result.StatusCode, result.ErrorMessage)
+            : NoContent();
     }
 }

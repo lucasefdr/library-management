@@ -1,4 +1,5 @@
-﻿using LibraryManagementSystem.Core.VOs;
+﻿using LibraryManagement.Core.Common;
+using LibraryManagementSystem.Core.VOs;
 
 namespace LibraryManagementSystem.Core.Entities;
 

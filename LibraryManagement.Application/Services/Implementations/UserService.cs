@@ -1,5 +1,6 @@
 ﻿using LibraryManagement.Application.DTOs.InputModels.User;
-using LibraryManagementSystem.Application.Services.Interfaces;
+using LibraryManagement.Application.Services.Interfaces;
+using LibraryManagement.Core.Common;
 using LibraryManagementSystem.Application.ViewModels.User;
 using LibraryManagementSystem.Core.Entities;
 using LibraryManagementSystem.Core.Interfaces;
@@ -34,12 +35,15 @@ public class UserService : IUserService
         return users;
     }
 
-    public async Task<UserViewModel?> GetUser(int id)
+    public async Task<Result<UserViewModel>> GetUser(int id)
     {
         var user = await _userRepository.FindAsync(id);
 
-        if (user is null) return null;
+        if (user == null)
+            return Result.Failure<UserViewModel>("User not found", 404);
 
-        return new UserViewModel(user.Name, user.Email.Address);
+        var response = new UserViewModel(user.Name, user.Email.Address);
+        
+        return Result.Success(response);
     }
 }

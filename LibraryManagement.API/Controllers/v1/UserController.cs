@@ -1,5 +1,5 @@
 ﻿using LibraryManagement.Application.DTOs.InputModels.User;
-using LibraryManagementSystem.Application.Services.Interfaces;
+using LibraryManagement.Application.Services.Interfaces;
 using LibraryManagementSystem.Core.Entities;
 using LibraryManagementSystem.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -27,9 +27,11 @@ public class UserController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<User>> Get(int id)
     {
-        var user = await _service.GetUser(id);
+        var result = await _service.GetUser(id);
 
-        return user is not null ? Ok(user) : NotFound();
+        return result.IsFailure 
+            ? StatusCode(result.StatusCode, result.ErrorMessage)
+            : Ok(result.Value);
     }
 
     [HttpPost]

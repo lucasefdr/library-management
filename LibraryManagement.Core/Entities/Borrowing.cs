@@ -1,4 +1,6 @@
-﻿namespace LibraryManagementSystem.Core.Entities;
+﻿using LibraryManagement.Core.Common;
+
+namespace LibraryManagementSystem.Core.Entities;
 
 public sealed class Borrowing : BaseEntity
 {
